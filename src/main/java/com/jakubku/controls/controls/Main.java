@@ -12,6 +12,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -24,24 +26,22 @@ public class Main extends Application {
     public void start(Stage stage) {
         VBox root = new VBox(10);
         root.setAlignment(Pos.CENTER);
-        Label label = new Label("Name Selected: ");
-        ComboBox<String> names = new ComboBox<>();
-        names.setPromptText("Select a name");
-        //only in combobox
-        names.setEditable(true);
-        ObservableList<String> namesList =
-                FXCollections.observableArrayList("Patrick", "Sam", "Ken", "Sara");
-        names.getItems().addAll(namesList);
-        names.getSelectionModel()
-                .selectedItemProperty()
-                .addListener(
-                        o ->
-                                label.setText(
-                                        "Name Selected: " +
-                                        names.getSelectionModel()
-                                                .getSelectedItem())
-                );
-        root.getChildren().addAll(label, names);
+        ComboBox<HBox> names = new ComboBox<>();
+        names.getItems().addAll(
+                new HBox(
+                        new Line(0, 10, 20, 10),
+                        new Label("Patrick")
+                ),
+                new HBox(
+                        new Rectangle(0, 0, 20, 20),
+                        new Label("Sam")
+                ),
+                new HBox(
+                        new Circle(20, 20, 10),
+                        new Label("Ken")
+                )
+        );
+        root.getChildren().addAll(names);
         Scene scene = new Scene(root, 500, 450);
         root.requestFocus();
         stage.setTitle("ComboBox Control Example");
