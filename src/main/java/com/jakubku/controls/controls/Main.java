@@ -18,36 +18,41 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    Label userSelection;
+    Label answer;
+    CheckBox checkBox;
 
     @Override
-    public void init() {
-        userSelection = new Label("Your Selection: None");
+    public void init(){
+        answer = new Label("Your answer: None");
+        checkBox = new CheckBox("Choice");
     }
 
     @Override
     public void start(Stage stage) {
-        VBox root = new VBox(10);
+        VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
-        RadioButton spring = new RadioButton("Spring");
-        RadioButton summer = new RadioButton("Summer");
-        RadioButton fall = new RadioButton("Fall");
-        RadioButton winter = new RadioButton("Winter");
-        ToggleGroup group = new ToggleGroup();
-        group.getToggles().addAll(spring, summer, fall, winter);
-        group.selectedToggleProperty().addListener(this::changed);
-        root.getChildren().addAll(userSelection, spring, summer, fall, winter);
+        root.setSpacing(10);
+        Label question = new Label("Are you in favor?");
+        //Indeterminate state
+        checkBox.setAllowIndeterminate(true);
+        checkBox.selectedProperty().addListener(this::changed);
+        checkBox.indeterminateProperty().addListener(this::changed);
+        root.getChildren().addAll(answer, question, checkBox);
         Scene scene = new Scene(root, 500, 450);
-        stage.setTitle("RadioButton Control Example");
+        stage.setTitle("CheckBox Control Example");
         stage.setScene(scene);
         stage.show();
     }
-    public void changed(ObservableValue<? extends Toggle> observableValue, Toggle oldBtn, Toggle newBtn){
-        String selectedLabel = "None";
-        if(newBtn != null){
-            selectedLabel = ((Labeled)newBtn).getText();
+    public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldVal, Boolean newVal){
+        String choice = null;
+        if(checkBox.isIndeterminate()) {
+            choice = "Neutral";
+        } else if (checkBox.isSelected()){
+            choice = "Agree";
+        } else {
+            choice = "Negative";
         }
-        userSelection.setText("Your Selection: " + selectedLabel);
+        answer.setText("Your answer: " + choice);
     }
     public static void main(String[] args) {
         launch();
