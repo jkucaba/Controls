@@ -16,19 +16,33 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+    boolean isLightOn;
+
+    @Override
+    public void init() {
+        isLightOn = false;
+    }
+
     @Override
     public void start(Stage stage) {
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
-        MenuButton Sites = new MenuButton("Sites");
-        MenuItem google = new MenuItem("Google");
-        MenuItem youtube = new MenuItem("Youtube");
-        google.setOnAction(actionEvent -> System.out.println("Visiting Google.com"));
-        youtube.setOnAction(actionEvent -> System.out.println("Visiting YouTube.com"));
-        Sites.getItems().addAll(google, youtube); //like getChildren()
-        root.getChildren().addAll(Sites);
+        root.setSpacing(10);
+        Rectangle rect = new Rectangle(200, 100, Color.RED);
+        ToggleButton light = new ToggleButton("OFF");
+        root.getChildren().addAll(rect, light);
+        light.setOnAction(actionEvent -> {
+            isLightOn = !isLightOn;
+            if(isLightOn){
+                rect.setFill(Color.GREEN);
+                light.setText("ON");
+            } else {
+                rect.setFill(Color.RED);
+                light.setText("OFF");
+            }
+        });
         Scene scene = new Scene(root, 500, 450);
-        stage.setTitle("MenuButton Control Example");
+        stage.setTitle("ToggleButton Control Example");
         stage.setScene(scene);
         stage.show();
     }
