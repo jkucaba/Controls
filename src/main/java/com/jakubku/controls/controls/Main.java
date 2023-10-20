@@ -3,6 +3,7 @@ package com.jakubku.controls.controls;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -18,42 +19,34 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    Label answer;
-    CheckBox checkBox;
-
-    @Override
-    public void init(){
-        answer = new Label("Your answer: None");
-        checkBox = new CheckBox("Choice");
-    }
 
     @Override
     public void start(Stage stage) {
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
         root.setSpacing(10);
-        Label question = new Label("Are you in favor?");
-        //Indeterminate state
-        checkBox.setAllowIndeterminate(true);
-        checkBox.selectedProperty().addListener(this::changed);
-        checkBox.indeterminateProperty().addListener(this::changed);
-        root.getChildren().addAll(answer, question, checkBox);
+        Label label = new Label("Your Direction: ");
+
+        ChoiceBox<String> directions = new ChoiceBox();
+        ObservableList<String> directionList = FXCollections.observableArrayList("North", "South", "East", "West");
+        directions.getItems().addAll(directionList);
+        //Showing first option at start
+        directions.getSelectionModel().selectFirst();
+        //Adding an Event listener
+        directions.getSelectionModel().selectedItemProperty()
+                .addListener(observable->
+                        label.setText(
+                                "Your Direction: "
+                                        + directions.getSelectionModel().getSelectedItem())
+        );
+
+        root.getChildren().addAll(label, directions);
         Scene scene = new Scene(root, 500, 450);
-        stage.setTitle("CheckBox Control Example");
+        stage.setTitle("ChoiceBox Control Example");
         stage.setScene(scene);
         stage.show();
     }
-    public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldVal, Boolean newVal){
-        String choice = null;
-        if(checkBox.isIndeterminate()) {
-            choice = "Neutral";
-        } else if (checkBox.isSelected()){
-            choice = "Agree";
-        } else {
-            choice = "Negative";
-        }
-        answer.setText("Your answer: " + choice);
-    }
+
     public static void main(String[] args) {
         launch();
     }
