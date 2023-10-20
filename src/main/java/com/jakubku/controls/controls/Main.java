@@ -17,10 +17,23 @@ public class Main extends Application {
     public void start(Stage stage) {
         VBox root = new VBox(10);
         root.setAlignment(Pos.CENTER);
-        Slider slider = new Slider(0, 100, 20);
-        slider.setShowTickMarks(true);
-        slider.setBlockIncrement(10);
-        root.getChildren().addAll(slider);
+        Slider red = new Slider(0, 255, 0);
+        Slider green = new Slider(0, 255, 0);
+        Slider blue = new Slider(0, 255, 0);
+        Slider[] sliders = {red, green, blue};
+        for(Slider slider : sliders){
+            slider.setShowTickMarks(true);
+            slider.setBlockIncrement(5);
+            slider.valueProperty().addListener(
+                    o -> {
+                        int redColor = (int)red.getValue();
+                        int greenColor = (int)green.getValue();
+                        int blueColor = (int)blue.getValue();
+                        root.setStyle("-fx-background-color: rgb("+redColor+","+greenColor+","+blueColor+")");
+                    }
+            );
+        }
+        root.getChildren().addAll(red, green, blue);
         Scene scene = new Scene(root, 500, 450);
         root.requestFocus();
         stage.setTitle("Slider Control Example");
