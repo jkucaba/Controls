@@ -16,30 +16,26 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    boolean isLightOn;
-
-    @Override
-    public void init() {
-        isLightOn = false;
-    }
 
     @Override
     public void start(Stage stage) {
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
-        root.setSpacing(10);
-        Rectangle rect = new Rectangle(200, 100, Color.RED);
-        ToggleButton light = new ToggleButton("OFF");
-        root.getChildren().addAll(rect, light);
-        light.setOnAction(actionEvent -> {
-            isLightOn = !isLightOn;
-            if(isLightOn){
-                rect.setFill(Color.GREEN);
-                light.setText("ON");
-            } else {
-                rect.setFill(Color.RED);
-                light.setText("OFF");
-            }
+        Label label = new Label("Your selection is: ");
+        ToggleButton spring = new ToggleButton("Spring");
+        ToggleButton summer = new ToggleButton("Summer");
+        ToggleButton fall = new ToggleButton("Fall");
+        ToggleButton winter = new ToggleButton("Winter");
+        ToggleGroup seasons = new ToggleGroup();
+        seasons.getToggles().addAll(spring, summer, fall, winter);
+        HBox seasonsLayout = new HBox();
+        seasonsLayout.setAlignment(Pos.CENTER);
+        seasonsLayout.setSpacing(5);
+        seasonsLayout.getChildren().addAll(spring, summer, fall, winter);
+        root.getChildren().addAll(label, seasonsLayout);
+        //t1 -> selected toggle
+        seasons.selectedToggleProperty().addListener((observableValue, toggle, t1) ->{
+            label.setText("Your selection is: " + ((Labeled)t1).getText());
         });
         Scene scene = new Scene(root, 500, 450);
         stage.setTitle("ToggleButton Control Example");
