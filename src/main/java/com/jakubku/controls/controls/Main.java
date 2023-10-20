@@ -1,9 +1,13 @@
 package com.jakubku.controls.controls;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -13,14 +17,22 @@ public class Main extends Application {
     public void start(Stage stage) {
         VBox root = new VBox(10);
         root.setAlignment(Pos.CENTER);
-        ComboBox<String> names = new ComboBox<>();
-        names.getItems().addAll("Patrick", "Sam", "Ken");
-        names.setCellFactory(stringListView -> new ShapeNameCell());
-        names.setButtonCell(new ShapeNameCell());
-        root.getChildren().addAll(names);
+        ColorPicker picker = new ColorPicker();
+        picker.setOnAction(
+                actionEvent ->
+                root.setBackground(
+                        new Background(
+                                new BackgroundFill(
+                                        picker.getValue(),
+                                        CornerRadii.EMPTY,
+                                        Insets.EMPTY)
+                        )
+                )
+        );
+        root.getChildren().addAll(picker);
         Scene scene = new Scene(root, 500, 450);
         root.requestFocus();
-        stage.setTitle("ComboBox Control Example");
+        stage.setTitle("Color Picker Control Example");
         stage.setScene(scene);
         stage.show();
     }
