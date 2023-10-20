@@ -17,19 +17,13 @@ public class Main extends Application {
     public void start(Stage stage) {
         VBox root = new VBox(10);
         root.setAlignment(Pos.CENTER);
-        Label date = new Label();
-        DatePicker datePicker = new DatePicker();
-        datePicker.setEditable(false);
-        datePicker.setOnAction(
-                actionEvent ->
-                        date.setText(
-                                datePicker.getValue().toString()
-                        )
-        );
-        root.getChildren().addAll(date, datePicker);
+        Slider slider = new Slider(0, 100, 20);
+        slider.setShowTickMarks(true);
+        slider.setBlockIncrement(10);
+        root.getChildren().addAll(slider);
         Scene scene = new Scene(root, 500, 450);
         root.requestFocus();
-        stage.setTitle("Color Picker Control Example");
+        stage.setTitle("Slider Control Example");
         stage.setScene(scene);
         stage.show();
     }
