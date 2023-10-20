@@ -4,9 +4,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -20,20 +18,17 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage stage) {
-        BorderPane root = new BorderPane();
-        HBox linksLayout = new HBox();
-        linksLayout.setAlignment(Pos.CENTER);
-        Hyperlink link1 = new Hyperlink("Google");
-        Hyperlink link2 = new Hyperlink("YouTube");
-        //WebView lets you open web page in app
-        WebView webView = new WebView();
-        link1.setOnAction(actionEvent -> webView.getEngine().load("https://www.google.com"));
-        link2.setOnAction(actionEvent -> webView.getEngine().load("https://www.youtube.com"));
-        linksLayout.getChildren().addAll(link1, link2);
-        root.setTop(linksLayout);
-        root.setCenter(webView);
+        VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
+        MenuButton Sites = new MenuButton("Sites");
+        MenuItem google = new MenuItem("Google");
+        MenuItem youtube = new MenuItem("Youtube");
+        google.setOnAction(actionEvent -> System.out.println("Visiting Google.com"));
+        youtube.setOnAction(actionEvent -> System.out.println("Visiting YouTube.com"));
+        Sites.getItems().addAll(google, youtube); //like getChildren()
+        root.getChildren().addAll(Sites);
         Scene scene = new Scene(root, 500, 450);
-        stage.setTitle("HyperLink Control Example");
+        stage.setTitle("MenuButton Control Example");
         stage.setScene(scene);
         stage.show();
     }
