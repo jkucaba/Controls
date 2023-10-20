@@ -22,27 +22,29 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        VBox root = new VBox();
+        VBox root = new VBox(10);
         root.setAlignment(Pos.CENTER);
-        root.setSpacing(10);
-        Label label = new Label("Your Direction: ");
-
-        ChoiceBox<String> directions = new ChoiceBox();
-        ObservableList<String> directionList = FXCollections.observableArrayList("North", "South", "East", "West");
-        directions.getItems().addAll(directionList);
-        //Showing first option at start
-        directions.getSelectionModel().selectFirst();
-        //Adding an Event listener
-        directions.getSelectionModel().selectedItemProperty()
-                .addListener(observable->
-                        label.setText(
-                                "Your Direction: "
-                                        + directions.getSelectionModel().getSelectedItem())
-        );
-
-        root.getChildren().addAll(label, directions);
+        Label label = new Label("Name Selected: ");
+        ComboBox<String> names = new ComboBox<>();
+        names.setPromptText("Select a name");
+        //only in combobox
+        names.setEditable(true);
+        ObservableList<String> namesList =
+                FXCollections.observableArrayList("Patrick", "Sam", "Ken", "Sara");
+        names.getItems().addAll(namesList);
+        names.getSelectionModel()
+                .selectedItemProperty()
+                .addListener(
+                        o ->
+                                label.setText(
+                                        "Name Selected: " +
+                                        names.getSelectionModel()
+                                                .getSelectedItem())
+                );
+        root.getChildren().addAll(label, names);
         Scene scene = new Scene(root, 500, 450);
-        stage.setTitle("ChoiceBox Control Example");
+        root.requestFocus();
+        stage.setTitle("ComboBox Control Example");
         stage.setScene(scene);
         stage.show();
     }
