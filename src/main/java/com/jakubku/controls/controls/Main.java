@@ -1,8 +1,10 @@
 package com.jakubku.controls.controls;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -16,15 +18,19 @@ public class Main extends Application {
     public void start(Stage stage) {
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
-        Label label = new Label("Hello World!");
-        Rectangle rectangle = new Rectangle(20,20, Color.RED);
-        label.setGraphic(rectangle);
-        label.setUnderline(true);
-        label.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        label.setTextFill(Color.GREEN);
-        root.getChildren().add(label);
+        root.setSpacing(10);
+        Button button = new Button("Click me");
+        Button other = new Button("Other");
+        Rectangle rect = new Rectangle(20, 20, Color.CYAN);
+        other.setGraphic(rect);
+        root.getChildren().addAll(other, button);
+        button.setCancelButton(true); //false by default
+        button.setOnAction(actionEvent -> {
+            System.out.println("Quiting Program");
+            Platform.exit();
+        });
         Scene scene = new Scene(root, 500, 450);
-        stage.setTitle("Label Controls Example");
+        stage.setTitle("Button Control Example");
         stage.setScene(scene);
         stage.show();
     }
