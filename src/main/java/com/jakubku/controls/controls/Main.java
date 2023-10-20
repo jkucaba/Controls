@@ -1,42 +1,38 @@
 package com.jakubku.controls.controls;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        VBox root = new VBox(10);
-        root.setAlignment(Pos.CENTER);
-        Slider red = new Slider(0, 255, 0);
-        Slider green = new Slider(0, 255, 0);
-        Slider blue = new Slider(0, 255, 0);
-        Slider[] sliders = {red, green, blue};
-        for(Slider slider : sliders){
-            slider.setShowTickMarks(true);
-            slider.setBlockIncrement(5);
-            slider.valueProperty().addListener(
-                    o -> {
-                        int redColor = (int)red.getValue();
-                        int greenColor = (int)green.getValue();
-                        int blueColor = (int)blue.getValue();
-                        root.setStyle("-fx-background-color: rgb("+redColor+","+greenColor+","+blueColor+")");
-                    }
-            );
-        }
-        root.getChildren().addAll(red, green, blue);
+        BorderPane root = new BorderPane();
+        MenuBar menu = new MenuBar();
+        Menu file = new Menu("File");
+        MenuItem save = new MenuItem("Save");
+        MenuItem exit = new MenuItem("Exit");
+        exit.setOnAction(actionEvent -> Platform.exit());
+        file.getItems().addAll(save, exit);
+        Menu edit = new Menu("Edit");
+        RadioMenuItem option = new RadioMenuItem("Options");
+        RadioMenuItem settings = new RadioMenuItem("Settings");
+        Menu prefs = new Menu("Preferences");
+        MenuItem prefOne = new MenuItem("Pref:One");
+        MenuItem prefTwo = new MenuItem("Pref:Two");
+        edit.getItems().addAll(option, settings, new SeparatorMenuItem(), prefs);
+        prefs.getItems().addAll(prefOne, prefTwo);
+        menu.getMenus().addAll(file, edit);
+        root.setTop(menu);
         Scene scene = new Scene(root, 500, 450);
         root.requestFocus();
-        stage.setTitle("Slider Control Example");
+        stage.setTitle("Menu Control Example");
         stage.setScene(scene);
         stage.show();
     }
