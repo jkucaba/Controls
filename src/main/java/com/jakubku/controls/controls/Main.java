@@ -2,6 +2,8 @@ package com.jakubku.controls.controls;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -16,33 +18,37 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+    Label userSelection;
+
+    @Override
+    public void init() {
+        userSelection = new Label("Your Selection: None");
+    }
 
     @Override
     public void start(Stage stage) {
-        VBox root = new VBox();
+        VBox root = new VBox(10);
         root.setAlignment(Pos.CENTER);
-        Label label = new Label("Your selection is: ");
-        ToggleButton spring = new ToggleButton("Spring");
-        ToggleButton summer = new ToggleButton("Summer");
-        ToggleButton fall = new ToggleButton("Fall");
-        ToggleButton winter = new ToggleButton("Winter");
-        ToggleGroup seasons = new ToggleGroup();
-        seasons.getToggles().addAll(spring, summer, fall, winter);
-        HBox seasonsLayout = new HBox();
-        seasonsLayout.setAlignment(Pos.CENTER);
-        seasonsLayout.setSpacing(5);
-        seasonsLayout.getChildren().addAll(spring, summer, fall, winter);
-        root.getChildren().addAll(label, seasonsLayout);
-        //t1 -> selected toggle
-        seasons.selectedToggleProperty().addListener((observableValue, toggle, t1) ->{
-            label.setText("Your selection is: " + ((Labeled)t1).getText());
-        });
+        RadioButton spring = new RadioButton("Spring");
+        RadioButton summer = new RadioButton("Summer");
+        RadioButton fall = new RadioButton("Fall");
+        RadioButton winter = new RadioButton("Winter");
+        ToggleGroup group = new ToggleGroup();
+        group.getToggles().addAll(spring, summer, fall, winter);
+        group.selectedToggleProperty().addListener(this::changed);
+        root.getChildren().addAll(userSelection, spring, summer, fall, winter);
         Scene scene = new Scene(root, 500, 450);
-        stage.setTitle("ToggleButton Control Example");
+        stage.setTitle("RadioButton Control Example");
         stage.setScene(scene);
         stage.show();
     }
-
+    public void changed(ObservableValue<? extends Toggle> observableValue, Toggle oldBtn, Toggle newBtn){
+        String selectedLabel = "None";
+        if(newBtn != null){
+            selectedLabel = ((Labeled)newBtn).getText();
+        }
+        userSelection.setText("Your Selection: " + selectedLabel);
+    }
     public static void main(String[] args) {
         launch();
     }
