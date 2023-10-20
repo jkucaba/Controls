@@ -17,19 +17,16 @@ public class Main extends Application {
     public void start(Stage stage) {
         VBox root = new VBox(10);
         root.setAlignment(Pos.CENTER);
-        ColorPicker picker = new ColorPicker();
-        picker.setOnAction(
+        Label date = new Label();
+        DatePicker datePicker = new DatePicker();
+        datePicker.setEditable(false);
+        datePicker.setOnAction(
                 actionEvent ->
-                root.setBackground(
-                        new Background(
-                                new BackgroundFill(
-                                        picker.getValue(),
-                                        CornerRadii.EMPTY,
-                                        Insets.EMPTY)
+                        date.setText(
+                                datePicker.getValue().toString()
                         )
-                )
         );
-        root.getChildren().addAll(picker);
+        root.getChildren().addAll(date, datePicker);
         Scene scene = new Scene(root, 500, 450);
         root.requestFocus();
         stage.setTitle("Color Picker Control Example");
