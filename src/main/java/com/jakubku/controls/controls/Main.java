@@ -22,7 +22,8 @@ public class Main extends Application {
         userTableView.getColumns().addAll(
                 UserUtility.getFirstNameColumn(),
                 UserUtility.getLastNameColumn(),
-                UserUtility.getBirthDateColumn()
+                UserUtility.getBirthDateColumn(),
+                UserUtility.getDeleteUserColumn()
         );
         userTableView.getSelectionModel().selectFirst();
         root.getChildren().addAll(userTableView);
