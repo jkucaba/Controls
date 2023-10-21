@@ -26,6 +26,12 @@ public class User {
     public LocalDate getBirthDate() {
         return birthDate.get();
     }
+    public void setFirstName(String firstName){
+        this.firstName.set(firstName);
+    }
+    public void setBirthDate(LocalDate birthDate){
+        this.birthDate.set(birthDate);
+    }
 
     @Override
     public String toString() {
