@@ -18,19 +18,28 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         VBox root = new VBox();
-        TableView<User> userTableView = new TableView<>(UserUtility.getUsersList());
-        userTableView.setEditable(true);
-        userTableView.getColumns().addAll(
-                UserUtility.getFirstNameColumn(),
-                UserUtility.getLastNameColumn(),
-                UserUtility.getBirthDateColumn(),
-                UserUtility.getDeleteUserColumn()
+        root.setAlignment(Pos.CENTER);
+        TreeView<String> treeView = new TreeView<>();
+        TreeItem<String> classes = new TreeItem<>("Classes");
+        TreeItem<String> classOne = new TreeItem<>("Class One");
+        classOne.getChildren().addAll(
+                new TreeItem<>("Patric"),
+                new TreeItem<>("Sam"),
+                new TreeItem<>("James"),
+                new TreeItem<>("Sara")
         );
-        userTableView.getSelectionModel().selectFirst();
-        root.getChildren().addAll(userTableView);
+        TreeItem<String> classTwo = new TreeItem<>("Class Two");
+        classTwo.getChildren().addAll(
+                new TreeItem<>("Peter"),
+                new TreeItem<>("Abigail"),
+                new TreeItem<>("Rick")
+        );
+        classes.getChildren().addAll(classOne, classTwo);
+        treeView.setRoot(classes);
+        root.getChildren().addAll(treeView);
         Scene scene = new Scene(root, 500, 450);
         root.requestFocus();
-        stage.setTitle("ListView Control Example");
+        stage.setTitle("TreeView Control Example");
         stage.setScene(scene);
         stage.show();
     }
