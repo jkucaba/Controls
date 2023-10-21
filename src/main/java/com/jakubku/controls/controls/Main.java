@@ -68,6 +68,9 @@ public class Main extends Application {
             };
             return cell;
         });*/
+        treeView.setOnEditCommit(e ->
+                e.getTreeItem().setValue(e.getNewValue())
+                );;
         root.getChildren().addAll(treeView);
         Scene scene = new Scene(root, 500, 450);
         root.requestFocus();
