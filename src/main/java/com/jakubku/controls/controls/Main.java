@@ -24,6 +24,7 @@ public class Main extends Application {
                 UserUtility.getLastNameColumn(),
                 UserUtility.getBirthDateColumn()
         );
+        userTableView.getSelectionModel().selectFirst();
         root.getChildren().addAll(userTableView);
         Scene scene = new Scene(root, 500, 450);
         root.requestFocus();

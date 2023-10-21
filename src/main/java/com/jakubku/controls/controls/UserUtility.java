@@ -18,6 +18,7 @@ public class UserUtility {
     public static TableColumn<User, String> getFirstNameColumn(){
         TableColumn<User, String> fNameCol = new TableColumn<>("First Name");
         fNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        fNameCol.setSortable(false);
         return fNameCol;
     }
     public static TableColumn<User, String> getLastNameColumn(){
