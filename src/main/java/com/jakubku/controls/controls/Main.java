@@ -3,6 +3,7 @@ package com.jakubku.controls.controls;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -18,21 +19,16 @@ public class Main extends Application {
     public void start(Stage stage) {
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
-        Label selected = new Label();
-        Button selectFirst = new Button("Select First");
-        ListView<String> list = new ListView<>();
-        ObservableList<String> names = FXCollections.observableArrayList("Patrick", "Sam", "Ken", "Sara");
-        list.getSelectionModel()
-                .selectedItemProperty()
-                        .addListener(
-                                (observableValue, olVal, newVal) ->
-                                        selected.setText(newVal)
-                                );
-        //we can select multiple things
-        //list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        list.getItems().addAll(names);
-        selectFirst.setOnAction(actionEvent -> list.getSelectionModel().selectFirst());
-        root.getChildren().addAll(selected, list, selectFirst);
+        ListView<Task> taskListView = new ListView<>();
+        ObservableList<Task> task = FXCollections.observableArrayList(
+                new Task("Create Java Project"),
+                new Task("Create Bug Report"),
+                new Task("Commit changes to repo")
+        );
+        //adding custom cell to list
+        taskListView.setCellFactory(taskListView1 -> new CustomTaskCell());
+        taskListView.getItems().addAll(task);
+        root.getChildren().addAll(taskListView);
         Scene scene = new Scene(root, 500, 450);
         root.requestFocus();
         stage.setTitle("ListView Control Example");
